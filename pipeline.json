@@ -1,0 +1,75 @@
+{
+    "metadata": {
+        "updated": 1597924947.379,
+        "created": 1597924947.379,
+        "pipelineArn": "arn:aws:codepipeline:us-west-2:045707888030:aws_pipe"
+    },
+    "pipeline": {
+        "stages": [
+            {
+                "name": "Source",
+                "actions": [
+                    {
+                        "runOrder": 1,
+                        "name": "Source",
+                        "actionTypeId": {
+                            "provider": "GitHub",
+                            "version": "1",
+                            "category": "Source",
+                            "owner": "ThirdParty"
+                        },
+                        "namespace": "SourceVariables",
+                        "inputArtifacts": [],
+                        "configuration": {
+                            "PollForSourceChanges": "false",
+                            "Repo": "code-dep",
+                            "Branch": "master",
+                            "OAuthToken": "****",
+                            "Owner": "rajatshukla058"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "SourceArtifact"
+                            }
+                        ],
+                        "region": "us-west-2"
+                    }
+                ]
+            },
+            {
+                "name": "Deploy",
+                "actions": [
+                    {
+                        "runOrder": 1,
+                        "name": "Deploy",
+                        "actionTypeId": {
+                            "provider": "CodeDeploy",
+                            "version": "1",
+                            "category": "Deploy",
+                            "owner": "AWS"
+                        },
+                        "namespace": "DeployVariables",
+                        "inputArtifacts": [
+                            {
+                                "name": "SourceArtifact"
+                            }
+                        ],
+                        "configuration": {
+                            "ApplicationName": "demo",
+                            "DeploymentGroupName": "demo_code"
+                        },
+                        "outputArtifacts": [],
+                        "region": "us-west-2"
+                    }
+                ]
+            }
+        ],
+        "roleArn": "arn:aws:iam::045707888030:role/service-role/AWSCodePipelineServiceRole-us-west-2-aws_pipe",
+        "version": 1,
+        "name": "aws_pipe",
+        "artifactStore": {
+            "location": "codepipeline-us-west-2-598374578283",
+            "type": "S3"
+        }
+    }
+}
